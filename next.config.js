@@ -3,4 +3,12 @@ const withNextra = require('nextra')({
   themeConfig: './theme.config.js',
   unstable_staticImage: true,
 })
-module.exports = withNextra()
+module.exports = {
+  ...withNextra(),
+  images: {
+    loader: 'akamai',
+    path: ''
+  },
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH
+}
