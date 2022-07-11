@@ -1,0 +1,32 @@
+# Customization
+
+Once you've imported `wc-notification-bell` component and started using it, you can customize it by adding your own styles.
+
+If you want to modify the style, which is already externalized to variable, you can do it in the following way:
+
+```html
+<style>
+  :root {
+    --wc-notification-bell-color: orange;
+  }
+</style>
+...
+<wc-notification-bell></wc-notification-bell>
+```
+
+You can also modify almost any style of the component in the following way:
+
+```html
+<style>
+  wc-notification-bell {
+    width: 50px;
+  }
+
+  wc-notification-bell div.header {
+    font-size: 20px;
+  }
+</style>
+...
+<wc-notification-bell></wc-notification-bell>
+```
+
