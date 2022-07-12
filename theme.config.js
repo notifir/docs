@@ -16,15 +16,15 @@ export default {
       <meta name="theme-color" content="#ffffff" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
-      <meta name="description" content="Nextra: the Next.js site builder" />
-      <meta name="og:description" content="Nextra: the Next.js site builder" />
+      <meta name="description" content="Notifir: In-app notifications made easy" />
+      <meta name="og:description" content="Notifir: In-app notifications made easy" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content="https://nextra.vercel.app/og.png" />
-      <meta name="twitter:site:domain" content="nextra.vercel.app" />
-      <meta name="twitter:url" content="https://nextra.vercel.app" />
-      <meta name="og:title" content="Nextra: Next.js static site generator" />
-      <meta name="og:image" content="https://nextra.vercel.app/og.png" />
-      <meta name="apple-mobile-web-app-title" content="Nextra" />
+      <meta name="twitter:image" content="https://notifir.github.io/docs/og.png" />
+      <meta name="twitter:site:domain" content="https://notifir.github.io/docs" />
+      <meta name="twitter:url" content="https://notifir.github.io/docs" />
+      <meta name="og:title" content="Notifir: In-app notifications made easy" />
+      <meta name="og:image" content="https://notifir.github.io/docs/og.png" />
+      <meta name="apple-mobile-web-app-title" content="Notifir" />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
