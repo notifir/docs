@@ -1,4 +1,5 @@
 {
+  "authentication": "Authentication",
   "api": "API",
   "component": "Web Component"
 }
