@@ -1,2 +1,165 @@
 # Creating notifications
 
+These section describes how you can send your first notification using curl calls. Notifir provides REST API and GraphQL API to make a
+request. The new notification will be shown in the notification inbox of the recipient in real-time.
+
+***
+All requests require following headers:
+
+| Header&emsp;&emsp;&emsp; | Description                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| x-user-id                | containing the id of the user performing the request                                      |
+| x-api-key                | containing project's API key                                                              |
+| x-user-hmac              | containing the computed hash for the user (required in case of hmac-based authentication) |
+
+
+## REST API
+
+**POST** `/api/notifications`
+
+Example usage:
+```
+curl --request POST \
+     --url https://t-notifications-api.herokuapp.com/api/notifications \
+     --header 'Content-Type: application/json' \
+     --header 'x-api-key: [api_key]' \
+     --header 'x-user-id: [user_id]' \
+     --header 'x-user-hmac: [user_id_hmac]' \
+     --data '
+       {
+         "type": "entry-created",
+         "user_id": "beast~mailinator.com@marvel-x-men",
+         "project_id": "default",
+         "payload": {
+            "entryTitle": "001",
+            "stepTitle": "New",
+            "folderTitle": "Reports",
+            "user": "Henry McCoy"
+         }
+       }'
+```
+
+##### Body params
+
+| Parameter   | Description                                                         | Type   | Required | Notes           |
+| ----------- | --------------------------------------------------------------------|--------|:--------:|-----------------|
+| type        | type of the notification                                            | String | ✅ | Max length: 255 |
+| user_id     | id of the user                                                      | String | ✅ ||
+| project_id  | project the notification belongs to                                 | String | ✅ ||
+| payload     | custom map of data that is used to generate messages from templates | Object | ✅ ||
+
+##### Responses
+
+**201**
+```json
+{
+  "notification": {
+    "id": "6bf116d6-08f5-11ed-ad74-7b8c7a2131e1"
+  }
+}
+```
+
+**400**
+```json
+{
+  "errors": [
+    {
+      "location": "body",
+      "msg": "Property 'project_id' is required",
+      "param": "project_id"
+    }
+  ]
+}
+```
+
+**401**
+```json
+{
+  "errors": [
+    "Missing required header 'x-api-key'"
+  ]
+}
+```
+
+**403**
+```json
+{
+  "errors": [
+    "User beast~mailinator.com@marvel-x-men doesn't have permissions to add notification"
+  ]
+}
+```
+
+**500**
+```json
+{
+  "errors": [
+    "An error occurred while creating new notification"
+  ]
+}
+```
+
+
+
+## GraphQL API
+
+**POST** `/api/graphql`
+
+Example usage:
+```
+curl --request POST \
+     --url https://t-notifications-api.herokuapp.com/api/graphql \
+     --header 'Content-Type: application/json' \
+     --header 'x-api-key: [api_key]' \
+     --header 'x-user-id: [user_id]' \
+     --header 'x-user-hmac: [user_id_hmac]' \
+     --data '
+       {
+         "query": "mutation { createNotification(input: { notification: { type: \"entry-created\", userId: \"beast~mailinator.com@marvel-x-men\", projectId: \"default\", payload: \"{\\\"entryTitle\\\": \\\"001\\\", \\\"stepTitle\\\": \\\"New\\\", \\\"folderTitle\\\": \\\"Reports\\\", \\\"user\\\": \\\"Henry McCoy\\\" }\" } } ) { notification { id } } }"
+       }'
+
+```
+
+##### Responses
+
+**200**
+```json
+{
+  "data": {
+    "createNotification": {
+      "notification": {
+        "id": "71e4f80a-0909-11ed-9a68-e765b0b955a1"
+      }
+    }
+  }
+}
+```
+
+**400**
+```json
+{
+  "errors": [
+    {
+      "locations": [
+        {
+          "column": 55,
+          "line": 1
+        }
+      ],
+      "message": "Field \"NotificationInput.type\" of required type \"String!\" was not provided."
+    }
+  ]
+}
+```
+
+**500**
+```json
+{
+  "errors": [
+    {
+      "message": "Missing required header 'x-user-id'"
+    }
+  ]
+}
+```
+
