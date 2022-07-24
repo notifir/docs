@@ -14,7 +14,9 @@ You can install `wc-notification-bell` component in different ways depending on 
 
 <notification-bell
   apiUrl="https://t-notifications-api.herokuapp.com/api/graphql"
-  userKey="723d42f66c080b02ce346ba59bd5b9ef"
+  apiKey="114ee1da-067b-11ed-be0f-6f24634ae754"
+  userId="beast~mailinator.com@marvel-x-men"
+  userHmac="Cq911/p2a5MCmnobRhnjOEBwSm/RwFvq+IMGtZDw/hk="
 />
 ```
 
@@ -27,7 +29,7 @@ npm install wc-notification-bell --save
 And then you need to import the module before you can use it in your html/jsx/template/whatever:
 
 ```js
-import "wc-menu-button";
+import "wc-notification-bell";
 
 ...
 
@@ -36,11 +38,14 @@ import "wc-menu-button";
 
 ## Configuration Parameters
 
-| Parameter |  Type   | Description                                                          |
-| :-------- | :-----: | :------------------------------------------------------------------- |
-| mock      | boolean | Allows to play with widget without having API run (default: `false`) |
-| apiUrl    | string  | The URL of the Notifications API (GraphQL) to fetch notifications    |
-| userKey   | string  | The user token, which is generated using the API secret              |
+| Parameter |  Type   | Description                                                                                                          |
+| :-------- | :-----: | :------------------------------------------------------------------------------------------------------------------- |
+| mock      | boolean | Allows to play with widget without having API run (default: `false`)                                                 |
+| apiUrl    | string  | The URL of the Notifications API (GraphQL) to fetch notifications                                                    |
+| apiKey    | string  | The public API key of your project, which is safe to store on the client-side and share over the network             |
+| userId    | string  | The user id, which is usually email (but not required to be an email)                                                |
+| userHmac  | string  | The HMAC code of the user's id, which is generated on the backend using the apiSecretKey and used for authentication |
+| locale    | string  | The locale of the component (default: `en_GB`)                                                                       |
 
 ## Browser Support
 

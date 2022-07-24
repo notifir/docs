@@ -8,7 +8,7 @@ When you integrate Notifir web component into your application (website), you ne
 
 | Argument     | Description                                                                                                                  |
 | :----------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| apiPublicKey | The public API key of your project, which is safe to store on the client-side and share over the network                     |
+| apiKey       | The public API key of your project, which is safe to store on the client-side and share over the network                     |
 | apiSecretKey | The secret API key of your project, which is used in HMAC algorithm and should never be shared or exposed on the client-side |
 | userId       | The user id, which is usually email (but not required to be an email)                                                        |
 | userHmac     | The HMAC code of the user's id, which is generated on the backend using the `apiSecretKey` and used for authentication       |
@@ -24,7 +24,9 @@ HMAC authentication algorithm is described on the diagram below.
 When you initialize Notifir web component in your application, you provide your project's public API key and a user's ID (f.e. email). A savvy user can open their browser's developer console and obtain your project's public API key with this setup. They can then initialize the inbox with your public API key but with a different user id and start viewing that user's notifications. To prevent that, the HMAC authentication algorithm comes in play. It's not enough to have project's public key and user id to view user's notifications. You need to prove the access by providing the `userHmac` code. The only way to obtain that code is to execute the HMAC algorithm using both user id and project's secret API key. The same algorithm is executed on the Notifir's API and can guarantee that the user is authorized to see notifications.
 
 <Callout emoji="🔑">
-  Remember that this authentication mechanism is secure as long as your secret API key is kept safe. Never publish it anywhere or expose it on the client-side code!
+  Remember that this authentication mechanism is secure as long as your secret
+  API key is kept safe. Never publish it anywhere or expose it on the
+  client-side code!
 </Callout>
 
 <Callout>
@@ -41,7 +43,7 @@ Use your project's API secret to compute an HMAC code of the user's id on your s
 const userHmac = crypto
   .createHmac('sha256', NOTIFIR_API_SECRET)
   .update(userId)
-  .digest('base64');
+  .digest('base64')
 ```
 
 ### Java
@@ -88,12 +90,11 @@ user_hmac = Base64.encode64(OpenSSL::HMAC.digest(digest, NOTIFIR_API_SECRET, use
 To start using it on the client, provide the HMAC code in the userHmac property of web component. You still need to set your public API key and the user's id in addition to that.
 
 ```html
-
-<notification-bell 
+<notification-bell
   apiUrl="http://localhost:3001/api/graphql"
   apiKey="YOUR_API_PUBLIC_KEY"
   userId="user@example.com"
   userHmac="YOUR_USER_HMAC_FROM_PREVIOUS_STEP"
-  >
+>
 </notification-bell>
 ```
