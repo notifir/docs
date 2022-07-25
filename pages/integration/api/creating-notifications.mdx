@@ -1,23 +1,23 @@
 # Creating notifications
 
-These section describes how you can send your first notification using curl calls. Notifir provides REST API and GraphQL API to make a
-request. The new notification will be shown in the notification inbox of the recipient in real-time.
+These section describes how you can create notifications. Notifir provides REST and GraphQL APIs. The new notifications appear in the notification inbox of the recipient in real-time.
 
-***
+---
+
 All requests require following headers:
 
-| Header&emsp;&emsp;&emsp; | Description                                                                               |
-| ------------------------ | ----------------------------------------------------------------------------------------- |
-| x-user-id                | containing the id of the user performing the request                                      |
-| x-api-key                | containing project's API key                                                              |
-| x-user-hmac              | containing the computed hash for the user (required in case of hmac-based authentication) |
-
+| Header&emsp;&emsp;&emsp; | Description                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| x-api-key                | containing project's API key                                                  |
+| x-user-id                | containing the id of the user performing the request                          |
+| x-user-hmac              | (if hmac authentication is enabled) containing the computed hash for the user |
 
 ## REST API
 
 **POST** `/api/notifications`
 
 Example usage:
+
 ```
 curl --request POST \
      --url https://t-notifications-api.herokuapp.com/api/notifications \
@@ -41,16 +41,17 @@ curl --request POST \
 
 ##### Body params
 
-| Parameter   | Description                                                         | Type   | Required | Notes           |
-| ----------- | --------------------------------------------------------------------|--------|:--------:|-----------------|
-| type        | type of the notification                                            | String | ✅ | Max length: 255 |
-| user_id     | id of the user                                                      | String | ✅ ||
-| project_id  | project the notification belongs to                                 | String | ✅ ||
-| payload     | custom map of data that is used to generate messages from templates | Object | ✅ ||
+| Parameter  | Description                                                         | Type   | Required | Notes           |
+| ---------- | ------------------------------------------------------------------- | ------ | :------: | --------------- |
+| type       | type of the notification                                            | String |    ✅    | Max length: 255 |
+| user_id    | unique id of the user                                               | String |    ✅    |                 |
+| project_id | project the notification belongs to                                 | String |    ✅    |                 |
+| payload    | custom map of data that is used to generate messages from templates | Object |    ✅    |                 |
 
 ##### Responses
 
 **201**
+
 ```json
 {
   "notification": {
@@ -60,6 +61,7 @@ curl --request POST \
 ```
 
 **400**
+
 ```json
 {
   "errors": [
@@ -73,15 +75,15 @@ curl --request POST \
 ```
 
 **401**
+
 ```json
 {
-  "errors": [
-    "Missing required header 'x-api-key'"
-  ]
+  "errors": ["Missing required header 'x-api-key'"]
 }
 ```
 
 **403**
+
 ```json
 {
   "errors": [
@@ -91,21 +93,19 @@ curl --request POST \
 ```
 
 **500**
+
 ```json
 {
-  "errors": [
-    "An error occurred while creating new notification"
-  ]
+  "errors": ["An error occurred while creating new notification"]
 }
 ```
-
-
 
 ## GraphQL API
 
 **POST** `/api/graphql`
 
 Example usage:
+
 ```
 curl --request POST \
      --url https://t-notifications-api.herokuapp.com/api/graphql \
@@ -123,6 +123,7 @@ curl --request POST \
 ##### Responses
 
 **200**
+
 ```json
 {
   "data": {
@@ -136,6 +137,7 @@ curl --request POST \
 ```
 
 **400**
+
 ```json
 {
   "errors": [
@@ -153,6 +155,7 @@ curl --request POST \
 ```
 
 **500**
+
 ```json
 {
   "errors": [
@@ -162,4 +165,3 @@ curl --request POST \
   ]
 }
 ```
-

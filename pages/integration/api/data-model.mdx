@@ -2,6 +2,10 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Data Model
 
-<Callout emoji="✅">
-  Describe the data model used for notifications
-</Callout>
+The core entity of Notifir is `Notification`. Notifications are sent to the users and shown in the widget. Users have access only to read their own notifications. Only `system` user can publish notification.
+
+In order to have possibility to separate notifications data into groups and introduce a kind of multi-tenancy, the `Project` concept has been introduced. The `Project` is a top-level abstraction, which encapsulates the access control keys.
+
+Notification itself is just a set of metadata. In the widget users can see the notification metadata mapped to the `Template`. `Templates` are stored in the DB next to the notifications and are linked to one of the `Projects`.
+
+<img src="/docs/03_data_model.png" />
