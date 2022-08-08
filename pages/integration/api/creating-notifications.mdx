@@ -28,25 +28,25 @@ curl --request POST \
      --data '
        {
          "type": "entry-created",
-         "user_id": "beast~mailinator.com@marvel-x-men",
-         "project_id": "default",
+         "recipients": ["beast~mailinator.com@marvel-x-men"],
          "payload": {
-            "entryTitle": "001",
-            "stepTitle": "New",
-            "folderTitle": "Reports",
+            "entry": "001",
+            "step": "New",
+            "folder": "Reports",
             "user": "Henry McCoy"
-         }
+         },
+         "action_url": "https://notifir.github.io/widget"
        }'
 ```
 
 ##### Body params
 
-| Parameter  | Description                                                         | Type   | Required | Notes           |
-| ---------- | ------------------------------------------------------------------- | ------ | :------: | --------------- |
-| type       | type of the notification                                            | String |    ✅    | Max length: 255 |
-| user_id    | unique id of the user                                               | String |    ✅    |                 |
-| project_id | project the notification belongs to                                 | String |    ✅    |                 |
-| payload    | custom map of data that is used to generate messages from templates | Object |    ✅    |                 |
+| Parameter   | Description                                                         | Type   | Required | Notes           |
+| ----------- | ------------------------------------------------------------------- | ------ | :------: | --------------- |
+| type        | type of the notification                                            | String |    ✅    | Max length: 255 |
+| recipients  | list of user ids to send the notification to                        | Array  |    ✅    | Min items: 1    |
+| payload     | custom map of data that is used to generate messages from templates | Object |          |                 |
+| action_url  | url to redirect the user to when they click the notification        | String |          |                 |
 
 ##### Responses
 
@@ -54,9 +54,11 @@ curl --request POST \
 
 ```json
 {
-  "notification": {
-    "id": "6bf116d6-08f5-11ed-ad74-7b8c7a2131e1"
-  }
+  "notifications": [
+    {
+      "id": "6bf116d6-08f5-11ed-ad74-7b8c7a2131e1"
+    }
+  ]
 }
 ```
 
@@ -64,13 +66,8 @@ curl --request POST \
 
 ```json
 {
-  "errors": [
-    {
-      "location": "body",
-      "msg": "Property 'project_id' is required",
-      "param": "project_id"
-    }
-  ]
+  "error": "bad_request",
+  "message": "Field 'type' is required and cannot be empty."
 }
 ```
 
@@ -78,7 +75,8 @@ curl --request POST \
 
 ```json
 {
-  "errors": ["Missing required header 'x-api-key'"]
+  "error": "unauthorized",
+  "message": "Missing required header 'x-user-hmac'"
 }
 ```
 
@@ -86,9 +84,8 @@ curl --request POST \
 
 ```json
 {
-  "errors": [
-    "User beast~mailinator.com@marvel-x-men doesn't have permissions to add notification"
-  ]
+  "error": "forbidden",
+  "message": "User beast~mailinator.com@marvel-x-men doesn't have permission to create notifications"
 }
 ```
 
@@ -96,7 +93,8 @@ curl --request POST \
 
 ```json
 {
-  "errors": ["An error occurred while creating new notification"]
+  "error": "internal_server_error",
+  "message": "An error occurred while creating new notification: No data returned from the query."
 }
 ```
 
@@ -115,7 +113,7 @@ curl --request POST \
      --header 'x-user-hmac: [user_id_hmac]' \
      --data '
        {
-         "query": "mutation { createNotification(input: { notification: { type: \"entry-created\", userId: \"beast~mailinator.com@marvel-x-men\", projectId: \"default\", payload: \"{\\\"entryTitle\\\": \\\"001\\\", \\\"stepTitle\\\": \\\"New\\\", \\\"folderTitle\\\": \\\"Reports\\\", \\\"user\\\": \\\"Henry McCoy\\\" }\" } } ) { notification { id } } }"
+         "query": "mutation { createNotification(input: { notification: { type: \"entry-created\", userId: \"beast~mailinator.com@marvel-x-men\", projectId: \"default\", payload: \"{\\\"entry\\\": \\\"001\\\", \\\"step\\\": \\\"New\\\", \\\"folder\\\": \\\"Reports\\\", \\\"user\\\": \\\"Henry McCoy\\\" }\" } } ) { notification { id } } }"
        }'
 
 ```
