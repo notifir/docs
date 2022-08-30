@@ -24,3 +24,19 @@ You can also modify almost any style of the component in the following way:
 
 <img src="/docs/04_widget_styles.png" />
 
+You can also localize the widget UI to your custom text and language. Pass in these parameters within *messages* when
+initializing. Each parameter is optional, and its default is used when it is not included.
+
+| Parameter      | Type   | Description                                    |
+| -------------- | ------ | ---------------------------------------------- |
+| notifications  | String | Default: 'Notifications'                       |
+| markAllAsRead  | String | Default: 'Mark all as read'                    |
+| error          | String | Default: 'Something went wrong...'             |
+| empty          | String | Default: 'You don’t have any notifications...' |
+
+```html
+<notification-bell
+    messages='{"markAllAsRead": "Mark all notifications as read"}'
+></notification-bell>
+```
+
