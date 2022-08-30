@@ -1,0 +1,77 @@
+import Bleed from 'nextra-theme-docs/bleed'
+
+# Deployment
+
+## Docker
+
+<img src="/docs/logo-sm.png" width="20%" />
+
+Notifir is providing the docker image, which can be found in [docker hub](https://hub.docker.com/r/titenkov/notifir).
+
+In order to run it:
+
+**Step 1: Pull**
+
+```bash
+docker pull titenkov/notifir
+```
+
+**Step 2: Start**
+
+```
+docker run \
+  -e AUTH_TYPE=hmac \
+  -e DB_HOST=localhost \
+  -e DB_PORT=5432 \
+  -e DB_DATABASE=notifir \
+  -e DB_USER= postgres \
+  -e DB_PASSWORD=postgres \
+  -p 80:80 \
+  titenkov/notifir
+```
+
+You should see the following output in the logs:
+
+```
+Server running on port 80
+```
+
+**Available options**
+
+| Option     | Environment Variable | Default value | Required | Description                    |
+| ---------- | -------------------- | ------------- | :------: | ------------------------------ |
+| authType   | `AUTH_TYPE`          | hmac          |   yes    | The authentication type to use |
+| dbHost     | `DB_HOST`            | n/a           |   yes    | The database host              |
+| dbPort     | `DB_PORT`            | n/a           |   yes    | The database port              |
+| dbDatabase | `DB_DATABASE`        | n/a           |   yes    | The database to use            |
+| dbUser     | `DB_USER`            | n/a           |   yes    | The database user              |
+| dbPassword | `DB_PASSWORD`        | n/a           |   yes    | The database password          |
+
+## Helm
+
+[Helm](https://helm.sh) must be installed to use the charts.  Please refer to
+Helm's [documentation](https://helm.sh/docs) to get started.
+
+Once Helm has been set up correctly, add the repo as follows:
+
+```
+helm repo add notifir-charts https://notifir.github.io/charts
+```
+
+If you had already added this repo earlier, run `helm repo update` to retrieve
+the latest versions of the packages.  You can then run `helm search repo
+notifir-charts` to see the charts.
+
+To install the Notifir chart:
+
+```
+helm install my-notifir notifir-charts/notifir
+```
+
+To uninstall the chart:
+
+```
+helm delete my-notifir
+```
+
+Check out the [Notifir chart home on Github](https://github.com/notifir/charts) for more details.

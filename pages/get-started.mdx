@@ -15,13 +15,21 @@ You can see how do they map together on the diagram below:
 
 ## API
 
-Notifications API provides [GraphQL APIs](https://graphql.org/) for publishing and reading notifications. Service is written in NodeJS and uses [Postgraphile](https://www.graphile.org/postgraphile/), which automatically generates GraphQL API for the Postgresql database. The access rights for the notifications data are enforced on the DB level. Read more here.
+Notifications API provides [GraphQL APIs](https://graphql.org/) for reading notifications and REST API for publishing notifications. Service is written in NodeJS and uses [Postgraphile](https://www.graphile.org/postgraphile/), which automatically generates GraphQL API for the Postgresql database. The access rights for the notifications data are enforced on the DB level.
 
 Setting up [API](https://github.com/notifir/api).
 
 1. Clone (or fork) [repository](https://github.com/notifir/api).
 
-2. You need to run Postgres to store your notifications and make API work. For example, you can run it in a docker container:
+2. Run `docker-compose` to quickly provision the `Postgres` and `Notifir API`:
+
+```shell
+docker-compose up
+```
+
+You can also run it without `docker-compose`:
+
+2.1. You need to run Postgres to store your notifications and make API work. For example, you can run it in a docker container:
 
 ```shell
 docker pull postgres
@@ -32,16 +40,15 @@ docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgr
   You can connect to the existing database or run Postgres in another way, but please ensure that `DB_*` environment variables are correct in the `.env` file.
 </Callout>
 
-3. Once you have Postgres running you need to apply DB-patches to create schema. You can also generate some test data using `npx knex seed:run` (optional).
+2.2. Once you have Postgres running you need to apply DB-patches to create schema. You can also generate some test data using `npx knex seed:run` (optional).
 
 ```shell
 npx knex migrate:latest
-npx knex seed:run
 ```
 
-You can connect to the Postgres and check that the schema (and data) is there.
+You can connect to the Postgres DB and check that the schema (and data) is there.
 
-4. You are good to go! Run `yarn start` to start or you can use `yarn watch` while developing locally.
+2.3. You are good to go! Run `yarn start` to start or you can use `yarn watch` while developing locally.
 
 ```shell
 yarn
@@ -98,6 +105,16 @@ import 'wc-notification-bell'
 <Callout>
   You can find the available configuration arguments in the Web Component section.
 </Callout>
+
+To run widget for a demo against the local Notifir API, you need to provide `apiUrl`, `apiKey`, `userId` and `userHmac` (based on the generated seed data).
+
+```html
+<notification-bell apiUrl="http://localhost:3001/api/graphql"
+                   apiKey="114ee1da-067b-11ed-be0f-6f24634ae754"
+                   userId="beast~mailinator.com@marvel-x-men"
+                   userHmac="Cq911/p2a5MCmnobRhnjOEBwSm/RwFvq+IMGtZDw/hk=">
+</notification-bell>
+```
 
 ---
 
